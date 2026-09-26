@@ -349,7 +349,9 @@ const AnalyticsModule = {
     if (filter === 'correct') {
       list = list.filter(item => item.isCorrect);
     } else if (filter === 'incorrect') {
-      list = list.filter(item => !item.isCorrect);
+      list = list.filter(item => item.answered && !item.isCorrect);
+    } else if (filter === 'unanswered') {
+      list = list.filter(item => !item.answered);
     }
 
     this.renderQuestionReview(list);
@@ -368,12 +370,13 @@ const AnalyticsModule = {
     reviewList.forEach(item => {
       const q = item.question;
       const card = document.createElement('div');
-      card.className = `card border-0 shadow-sm rounded-4 p-3 mb-3 ${item.isCorrect ? 'bg-light' : 'bg-light border border-danger border-start border-4'}`;
+      const unanswered = !item.answered;
+      card.className = `card border-0 shadow-sm rounded-4 p-3 mb-3 ${item.isCorrect ? 'bg-light' : unanswered ? 'bg-light border border-warning border-start border-4' : 'bg-light border border-danger border-start border-4'}`;
       
       card.innerHTML = `
         <div class="d-flex align-items-center justify-content-between mb-2">
-          <span class="badge ${item.isCorrect ? 'bg-success' : 'bg-danger'} rounded-pill">
-            <i class="bi ${item.isCorrect ? 'bi-check-lg' : 'bi-x-lg'} me-1"></i>Pregunta ${item.index}
+          <span class="badge ${item.isCorrect ? 'bg-success' : unanswered ? 'bg-warning text-dark' : 'bg-danger'} rounded-pill">
+            <i class="bi ${item.isCorrect ? 'bi-check-lg' : unanswered ? 'bi-hourglass-split' : 'bi-x-lg'} me-1"></i>${item.isCorrect ? 'Correcta' : unanswered ? 'No respondida' : 'Incorrecta'} · Pregunta ${item.index}
           </span>
           <span class="badge bg-secondary-subtle text-secondary">${q.subtopic || q.subject}</span>
         </div>
@@ -381,8 +384,8 @@ const AnalyticsModule = {
         ${q.diagram ? `<div class="my-2">${q.diagram}</div>` : ''}
         <div class="row g-2 mb-2 small">
           <div class="col-6">
-            <div class="p-2 rounded ${item.isCorrect ? 'bg-success-subtle text-success-emphasis' : 'bg-danger-subtle text-danger-emphasis'}">
-              <b>Tu respuesta:</b> (${item.userAnswer})
+            <div class="p-2 rounded ${item.isCorrect ? 'bg-success-subtle text-success-emphasis' : unanswered ? 'bg-warning-subtle text-warning-emphasis' : 'bg-danger-subtle text-danger-emphasis'}">
+              <b>Tu respuesta:</b> (${item.userAnswer})${item.unansweredByTime ? ' · se agotó el tiempo' : ''}
             </div>
           </div>
           <div class="col-6">

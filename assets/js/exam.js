@@ -570,7 +570,7 @@ const ExamEngine = {
       ];
       keys.forEach(([kind, value]) => {
         const id = kind + ':' + value;
-        if (!diagnostic[id]) diagnostic[id] = { kind, label: value, correct: 0, total: 0 };
+        if (!diagnostic[id]) diagnostic[id] = { kind, label: value, correct: 0, answered: 0, unanswered: 0, total: 0 };
         diagnostic[id].total++;
         if (userKey) diagnostic[id].answered++;
         else diagnostic[id].unanswered++;

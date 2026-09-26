@@ -30,16 +30,36 @@ const AnalyticsModule = {
     if (noResultsEl) noResultsEl.classList.add('d-none');
     if (contentEl) contentEl.classList.remove('d-none');
 
-    // Global Score Counter & Gauge
+    const isQuick = result.mode === 'quick';
+
+    // Resultado siempre interno: el drill de 10 preguntas no se convierte a escala ICFES.
     const globalScoreEl = document.getElementById('analyticsGlobalScore');
-    if (globalScoreEl) globalScoreEl.textContent = result.globalScore;
+    if (globalScoreEl) globalScoreEl.textContent = isQuick ? result.accuracyPct : result.globalScore;
+
+    const scoreLabelEl = document.getElementById('analyticsScoreLabel');
+    if (scoreLabelEl) {
+      scoreLabelEl.textContent = isQuick
+        ? 'Precisión del Drill Rápido (0 - 100)'
+        : 'Puntaje de entrenamiento (0 - 500)';
+    }
 
     const targetDiffEl = document.getElementById('analyticsTargetDiff');
     if (targetDiffEl) {
-      const diff = result.globalScore - AppState.user.targetScore;
-      targetDiffEl.innerHTML = diff >= 0
-        ? `<span class="badge bg-success-subtle text-success border border-success"><i class="bi bi-arrow-up-circle-fill me-1"></i>+${diff} sobre tu meta (${AppState.user.targetScore})</span>`
-        : `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning"><i class="bi bi-arrow-down-circle-fill me-1"></i>${diff} para alcanzar tu meta (${AppState.user.targetScore})</span>`;
+      if (isQuick) {
+        targetDiffEl.innerHTML = `
+          <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
+            <span class="badge bg-primary-subtle text-primary border border-primary"><i class="bi bi-check-circle me-1"></i>${result.correctCount} correctas</span>
+            <span class="badge bg-danger-subtle text-danger border border-danger"><i class="bi bi-x-circle me-1"></i>${result.incorrectCount} incorrectas</span>
+            <span class="badge bg-secondary-subtle text-secondary border"><i class="bi bi-dash-circle me-1"></i>${result.unansweredCount} sin responder</span>
+          </div>
+          ${result.timedOut ? '<div class="small text-warning-emphasis fw-semibold mt-2"><i class="bi bi-stopwatch me-1"></i>El tiempo se agotó: las preguntas restantes quedaron registradas como no respondidas.</div>' : ''}
+        `;
+      } else {
+        const diff = result.globalScore - AppState.user.targetScore;
+        targetDiffEl.innerHTML = diff >= 0
+          ? `<span class="badge bg-success-subtle text-success border border-success"><i class="bi bi-arrow-up-circle-fill me-1"></i>${diff} sobre tu meta (${AppState.user.targetScore})</span>`
+          : `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning"><i class="bi bi-arrow-down-circle-fill me-1"></i>${diff} para alcanzar tu meta (${AppState.user.targetScore})</span>`;
+      }
     }
 
     // Component score bars
@@ -53,8 +73,8 @@ const AnalyticsModule = {
     this.renderDiagnostics(result.componentScores);
 
     // Interpretación interna del entrenamiento
-    this.renderAdmissionEstimates(result.globalScore);
-    this.renderTopicDiagnostics(result.diagnostic || {});
+    this.renderAdmissionEstimates(result);
+    this.renderTopicDiagnostics(result.diagnostic || {}, isQuick);
 
     // Question review list
     this.renderQuestionReview(result.questionReview);
@@ -134,15 +154,7 @@ const AnalyticsModule = {
             pointHoverBorderColor: '#4f46e5',
             borderWidth: 2
           },
-          {
-            label: 'Promedio Nacional (Referencia)',
-            data: [50, 52, 49, 48, 50],
-            backgroundColor: 'rgba(148, 163, 184, 0.15)',
-            borderColor: '#94a3b8',
-            borderDash: [4, 4],
-            pointBackgroundColor: '#94a3b8',
-            borderWidth: 1.5
-          }
+
         ]
       },
       options: {

@@ -1,5 +1,6 @@
 /**
- * BANCO DE PREGUNTAS OFICIALES Y ENTRENAMIENTO SABER 11 - ICFES
+ * BANCO DE PREGUNTAS DE ENTRENAMIENTO - ICFES Pro
+ * Incluye material histórico ya incorporado y preguntas originales de práctica.
  */
 const QUESTIONS_DATA = [
   {

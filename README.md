@@ -1,4 +1,4 @@
-# 🎓 Saber 11 - Simulador Oficial & Tutor Virtual ICFES (PWA)
+# 🎓 ICFES Pro — Validación 2027 & Saber 11 (PWA)
 
 Una Progressive Web Application (PWA) de alto rendimiento, moderna, fluida y responsive, diseñada con estándares de Android Material You (Material 3) y Bootstrap 5.3 para preparar el examen oficial del ICFES Saber 11 en Colombia.
 
@@ -10,7 +10,7 @@ Una Progressive Web Application (PWA) de alto rendimiento, moderna, fluida y res
    * Temporizador regresivo oficial para el examen.
    * Sistema de preguntas de opción múltiple extraídas de los cuadernillos oficiales del ICFES.
    * Hoja digital de respuestas con selector interactivo y marcado de preguntas dudosas.
-   * Algoritmo de ponderación y cálculo del puntaje global oficial en la escala de **0 a 500 puntos** y por componentes (0 a 100).
+   * Diagnóstico interno de desempeño por área y tema. El puntaje oficial del ICFES no se reproduce: su metodología estadística no es pública.
    * Clasificación automática por **Niveles de Desempeño (Nivel 1 al 4)** y estimación de probabilidades de admisión universitaria (UNAL, UdeA, UIS, Becas Generación E / Andrés Bello).
 
 2. **Taller Maestro de Interpretación de Gráficos ICFES**:
@@ -47,3 +47,4 @@ Esta aplicación fue creada con arquitectura estática pura, perfecta para publi
 4. En **Branch**, selecciona `main` (o `master`) y carpeta `/(root)`, y presiona **Save**.
 5. ¡Listo! En 1 minuto GitHub te dará un enlace público (ej. `https://tu-usuario.github.io/saber11-app/`).
 6. Abre ese enlace desde Google Chrome en tu celular Android o Safari en tu iPhone y selecciona **"Agregar a la pantalla principal"** para tenerla instalada como una app nativa.
+\n\n## 🧭 Ruta 2027\nLa app ahora incluye modalidad **Validación del Bachillerato** (principal) y **Saber 11°**, un mapa seleccionable de temas para las cinco pruebas y un bloque de técnicas de resolución tipo selección múltiple. La ruta está diseñada para enseñar temas completos, no solo definiciones, y relacionarlos con práctica, descarte, velocidad y revisión de errores.\n\nLos cuadernillos entregados por el usuario sirven como material de entrenamiento histórico. La estructura oficial vigente debe contrastarse con la guía ICFES de la convocatoria correspondiente.\n

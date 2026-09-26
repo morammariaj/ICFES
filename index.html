@@ -393,7 +393,7 @@
             <div class="col-md-7">
               <span class="badge bg-primary rounded-pill px-3 py-1 mb-2 fw-bold">Informe de Entrenamiento</span>
               <h1 class="display-3 fw-bold text-primary mb-1" id="analyticsGlobalScore">365</h1>
-              <h5 class="fw-bold mb-2">Puntaje de entrenamiento (0 - 500)</h5>
+              <h5 class="fw-bold mb-2" id="analyticsScoreLabel">Puntaje de entrenamiento (0 - 500)</h5>
               <div id="analyticsTargetDiff" class="mb-3"></div>
               <div class="mb-0">
                 <span id="analyticsAdmissionBadge" class="badge bg-success rounded-pill px-3 py-2 mb-2"></span>
@@ -402,7 +402,7 @@
             </div>
             <div class="col-md-5 text-center">
               <div class="p-3 bg-white rounded-4 shadow-sm border d-inline-block w-100" style="max-width: 320px;">
-                <h6 class="fw-bold text-muted small mb-3">Comparativo interno del entrenamiento</h6>
+                <h6 class="fw-bold text-muted small mb-3">Distribución de resultados del entrenamiento</h6>
                 <div style="height: 180px;">
                   <canvas id="analyticsBarChart"></canvas>
                 </div>
@@ -459,6 +459,7 @@
               <button class="btn btn-outline-secondary active" data-review-filter="all">Todas</button>
               <button class="btn btn-outline-success" data-review-filter="correct">Solo Correctas</button>
               <button class="btn btn-outline-danger" data-review-filter="incorrect">Solo Errores</button>
+              <button class="btn btn-outline-warning" data-review-filter="unanswered">Sin Responder</button>
             </div>
           </div>
           <div id="analyticsReviewList"></div>

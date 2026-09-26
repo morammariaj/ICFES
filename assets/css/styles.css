@@ -486,3 +486,79 @@ body {
 .guide-content li {
   margin-bottom: 0.35rem;
 }
+
+/* --------------------------------------------------------------------------
+   Accessibility: question readability in both themes
+   -------------------------------------------------------------------------- */
+#examQuestionStatement {
+  color: var(--md-sys-color-on-surface) !important;
+  font-weight: 800;
+}
+
+#examContextContainer,
+#examContextContainer .text-secondary,
+#examDiagramContainer,
+#examOptionsContainer .option-text {
+  color: var(--md-sys-color-on-surface) !important;
+}
+
+#examOptionsContainer .option-text {
+  font-weight: 650;
+}
+
+#examOptionsContainer .option-letter {
+  color: var(--md-sys-color-on-surface) !important;
+}
+
+.text-secondary,
+.text-muted {
+  color: var(--md-sys-color-on-surface-variant) !important;
+}
+
+[data-bs-theme="light"] #examQuestionStatement,
+[data-bs-theme="light"] #examOptionsContainer .option-text {
+  color: #111827 !important;
+}
+
+[data-bs-theme="light"] #examContextContainer,
+[data-bs-theme="light"] #examDiagramContainer {
+  color: #1f2937 !important;
+}
+
+[data-bs-theme="dark"] .bg-light {
+  background-color: var(--md-sys-color-surface-container) !important;
+  color: var(--md-sys-color-on-surface) !important;
+}
+
+[data-bs-theme="dark"] .bg-white {
+  background-color: var(--md-sys-color-surface-container) !important;
+  color: var(--md-sys-color-on-surface) !important;
+}
+
+[data-bs-theme="dark"] .text-dark {
+  color: var(--md-sys-color-on-surface) !important;
+}
+
+[data-bs-theme="dark"] .option-card {
+  background-color: var(--md-sys-color-surface) !important;
+  border-color: var(--md-sys-color-outline) !important;
+}
+
+[data-bs-theme="dark"] .option-card:hover,
+[data-bs-theme="dark"] .option-card.selected {
+  color: var(--md-sys-color-on-surface) !important;
+}
+
+[data-bs-theme="dark"] .option-card.selected {
+  background-color: var(--md-sys-color-primary-container) !important;
+}
+
+[data-bs-theme="dark"] .option-card.correct {
+  background-color: #14532d !important;
+  color: #f0fdf4 !important;
+}
+
+[data-bs-theme="dark"] .option-card.incorrect {
+  background-color: #7f1d1d !important;
+  color: #fef2f2 !important;
+}

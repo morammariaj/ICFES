@@ -214,7 +214,7 @@
     ["Read: 'The school installed solar panels to reduce electricity costs and use renewable energy.'","Why did the school install them?","To reduce costs and use renewable energy.","To increase paper consumption.","To close the school.","To replace all teachers.","A","The text states both purposes.","When two reasons are stated, choose the option that preserves both."],
     ["Read: 'Nina wanted to run in the race, but she injured her ankle the day before.'","What happened?","Her ankle injury prevented her from being able to run normally.","She won the race easily.","She trained for another month.","The race was canceled.","A","The injury is the relevant event affecting her plan.","Do not add outcomes not stated."]
   ];
-  english.forEach((a,i)=>out.push(q("ing-x"+(101+i),"ingles",i<8?"Part 1 - Vocabulary":i<16?"Part 4 - Grammar":i<23?"Part 3 - Conversations":i<28?"Part 2 - Notices and Signs":"Part 6 - Reading Comprehension",i%2?"Lingüística y Gramatical":"Comunicativa y Sociolingüística",i%4===0?"Alta":"Media",a[0],a[1],opts(a[2],a[3],a[4],a[5]),a[6],a[7],a[8]));
+  english.forEach((a,i)=>out.push(q("ing-x"+(101+i),"ingles",i<8?"Part 1 - Vocabulary":i<16?"Part 4 - Grammar":i<23?"Part 3 - Conversations":i<28?"Part 2 - Notices and Signs":"Part 6 - Reading Comprehension",i%2?"Lingüística y Gramatical":"Comunicativa y Sociolingüística",i%4===0?"Alta":"Media",a[0],a[1],opts(a[2],a[3],a[4],a[5]),a[6],a[7],a[8])));
 
   // Mark deterministic training metadata.
   out.forEach(x=>x.generated=true);

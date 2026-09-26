@@ -25,7 +25,7 @@ const HISTORICAL_QUESTIONS = [
   {
     id:"hist-mat-2018-05", subject:"matematicas", subtopic:"Razones y costos",
     competency:"Formulación y Ejecución", difficulty:"Media",
-    context:"Para capacitar en informática básica a los trabajadores de algunas dependencias de una empresa, se contrata una institución. El módulo II, Procesador de texto, tiene una intensidad de 30 horas y un valor de $30.000 por hora.",
+    context:"Para capacitar en informática básica a los trabajadores de algunas dependencias de una empresa, se contrata una institución. El módulo II, Procesador de texto, tiene una intensidad de 30 horas y un valor de $30.000 por hora. Cada curso debe tener mínimo 20 y máximo 30 personas.",
     question:"Si se les cobrara a los 50 trabajadores de la dependencia “Recursos Humanos” la capacitación del módulo II, y todos pagaran el mismo valor, ¿cuánto debería pagar cada uno por esa capacitación?",
     options:[
       {key:"A",text:"$18.000"},
@@ -34,7 +34,7 @@ const HISTORICAL_QUESTIONS = [
       {key:"D",text:"$900.000"}
     ],
     correct:"B",
-    explanation:"El costo total del módulo es 30 horas × $30.000 = $900.000. Al distribuirlo entre 50 trabajadores, cada uno paga $900.000 ÷ 50 = $18.000. La respuesta correcta del cuadernillo es A.",
+    explanation:"Con 50 trabajadores deben organizarse 2 cursos, porque cada curso admite entre 20 y 30 personas. Cada curso cuesta 30 × $30.000 = $900.000; los dos cuestan $1.800.000. Al distribuirlo entre 50 trabajadores, cada uno paga $36.000.",
     tip:"Verifica siempre que la explicación coincida con la clave antes de marcar una pregunta histórica.",
     source:"cuadernillo_icfes_2018",
     source_basis:"ICFES, Cuadernillo de preguntas Saber 11°, Prueba de matemáticas, noviembre de 2018, pregunta 5. Uso académico."

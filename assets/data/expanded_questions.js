@@ -350,6 +350,14 @@
     ["Grammar: 'There ______ a computer and two chairs in the room.'","Choose the correct form.","is","are","be","were","A","With the first singular noun in this construction, there is is standard.","Check the noun immediately following there."]
   ];
   extraEnglish.forEach((a,i)=>out.push(q("ing-e"+(201+i),"ingles",i<4?"Part 1 - Vocabulary":i<9?"Part 4 - Grammar":i<13?"Part 3 - Conversations":i<15?"Part 2 - Notices and Signs":"Part 6 - Reading Comprehension",i%2?"Lingüística y Gramatical":"Comunicativa y Sociolingüística",i%4===0?"Alta":"Media",a[0],a[1],opts(a[2],a[3],a[4],a[5]),a[6],a[7],a[8])));
+  // Correcciones de tres registros con opciones textuales.
+  const fixes = {
+    "nat-e225": {correct:"C", explanation:"p=mv=4×3=12 kg·m/s.", tip:"Cantidad de movimiento = masa×velocidad."},
+    "nat-e227": {correct:"C", explanation:"Un pH mayor que 7 es básico.", tip:"Ubica el pH respecto a 7."},
+    "nat-e228": {correct:"A", explanation:"Con igual volumen, mayor cantidad de soluto implica mayor concentración.", tip:"Compara variables manteniendo constante el volumen."}
+  };
+  out.forEach(x=>{ if(fixes[x.id]) Object.assign(x,fixes[x.id]); });
+
   // Mark deterministic training metadata.
   out.forEach(x=>x.generated=true);
   window.EXPANDED_QUESTIONS = out;

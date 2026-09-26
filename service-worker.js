@@ -1,15 +1,17 @@
-const CACHE_NAME = 'saber11-cache-v1';
+const CACHE_NAME = 'icfes-pro-cache-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
   './assets/css/styles.css',
   './assets/js/app.js',
+  './assets/js/coach.js',
   './assets/js/exam.js',
   './assets/js/analytics.js',
   './assets/js/tutor.js',
   './assets/data/questions.js',
   './assets/data/study_guides.js',
+  './assets/data/curriculum.js',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/icons/favicon.png'

@@ -822,4 +822,5 @@ const QUESTIONS_DATA = [
  // no se presentan como preguntas oficiales.
 if (typeof ADDITIONAL_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...ADDITIONAL_QUESTIONS);
 if (typeof EXPANDED_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...EXPANDED_QUESTIONS);
+if (typeof HISTORICAL_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...HISTORICAL_QUESTIONS);
 

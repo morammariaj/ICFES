@@ -27,8 +27,65 @@
   <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body>
+  <!-- ==================== TEMPORARY LOGIN GATE ==================== -->
+  <section id="loginGate" class="login-gate d-none" aria-labelledby="loginTitle">
+    <div class="login-shell">
+      <div class="login-brand">
+        <div class="login-logo">
+          <i class="bi bi-mortarboard-fill"></i>
+        </div>
+        <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-bold">ICFES Pro · Acceso privado</span>
+      </div>
 
-  <!-- ==================== DESKTOP SIDEBAR ==================== -->
+      <div class="card border-0 login-card m3-card-elevated">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h1 class="h3 fw-bold mb-2" id="loginTitle">Iniciar sesión</h1>
+            <p class="text-secondary mb-0">Ingresa para acceder al simulador y tutor ICFES.</p>
+          </div>
+
+          <form id="loginForm" autocomplete="on">
+            <div class="mb-3">
+              <label for="loginUsername" class="form-label fw-bold">Usuario</label>
+              <div class="input-group input-group-lg">
+                <span class="input-group-text login-input-icon"><i class="bi bi-person-fill"></i></span>
+                <input type="text" class="form-control" id="loginUsername" name="username"
+                       autocomplete="username" autocapitalize="none" spellcheck="false"
+                       placeholder="Usuario" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="loginPassword" class="form-label fw-bold">Contraseña</label>
+              <div class="input-group input-group-lg">
+                <span class="input-group-text login-input-icon"><i class="bi bi-lock-fill"></i></span>
+                <input type="password" class="form-control" id="loginPassword" name="password"
+                       autocomplete="current-password" placeholder="Contraseña" required>
+                <button class="btn btn-outline-secondary" type="button" id="loginPasswordToggle" aria-label="Mostrar contraseña">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+              </div>
+            </div>
+
+            <div id="loginError" class="alert alert-danger d-none py-2 px-3 small fw-semibold" role="alert"></div>
+
+            <button type="submit" class="btn btn-m3-primary btn-lg w-100 mt-2" id="loginSubmitBtn">
+              <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+            </button>
+          </form>
+
+          <div class="login-future-note mt-4">
+            <i class="bi bi-shield-lock-fill me-2"></i>
+            <span>Acceso temporal. La estructura queda preparada para migrar después a correo + contraseña con autenticación real.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="appShell">
+
+    <!-- ==================== DESKTOP SIDEBAR ==================== -->
   <aside class="desktop-sidebar">
     <div class="d-flex align-items-center gap-3 px-2 mb-4">
       <div class="p-2 bg-primary text-white rounded-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
@@ -71,9 +128,14 @@
 
     <!-- Theme toggle & info -->
     <div class="pt-3 border-top d-flex align-items-center justify-content-between px-2">
-      <span class="small text-muted">Modo de lectura</span>
-      <button class="btn btn-sm btn-light border rounded-pill" id="themeToggleBtn" title="Cambiar tema">
-        <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+      <div class="d-flex align-items-center gap-2">
+        <span class="small text-muted">Modo de lectura</span>
+        <button class="btn btn-sm btn-light border rounded-pill" id="themeToggleBtn" title="Cambiar tema">
+          <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+        </button>
+      </div>
+      <button class="btn btn-sm btn-outline-danger rounded-pill" data-auth-logout title="Cerrar sesión">
+        <i class="bi bi-box-arrow-right"></i>
       </button>
     </div>
   </aside>
@@ -91,6 +153,9 @@
         </button>
         <button class="btn btn-sm btn-light rounded-circle border" onclick="toggleTheme()" title="Cambiar tema">
           <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger rounded-circle" data-auth-logout title="Cerrar sesión">
+          <i class="bi bi-box-arrow-right"></i>
         </button>
       </div>
     </div>
@@ -647,6 +712,8 @@
   <!-- Toast Notification Container -->
   <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;" id="toastContainer"></div>
 
+  </div>
+
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
@@ -665,6 +732,7 @@
   <script src="./assets/js/app.js"></script>
   <script src="./assets/data/curriculum.js"></script>
   <script src="./assets/js/coach.js"></script>
+  <script src="./assets/js/auth.js"></script>
 
   <!-- Service Worker Registration -->
   <script>

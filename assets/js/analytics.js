@@ -310,10 +310,19 @@ const AnalyticsModule = {
     }
   },
 
-  renderAdmissionEstimates(globalScore) {
+  renderAdmissionEstimates(result) {
     const badgeEl = document.getElementById('analyticsAdmissionBadge');
     const descEl = document.getElementById('analyticsAdmissionDesc');
     if (!badgeEl || !descEl) return;
+
+    if (result.mode === 'quick') {
+      badgeEl.className = 'badge bg-warning-subtle text-warning-emphasis rounded-pill px-3 py-2';
+      badgeEl.textContent = result.timedOut ? 'Tiempo agotado' : 'Drill completado';
+      descEl.textContent = 'Este resultado es un diagnóstico interno de 10 preguntas. Las respuestas correctas, incorrectas y las que quedaron sin responder se muestran por separado; no equivale a un puntaje oficial ICFES.';
+      return;
+    }
+
+    const globalScore = result.globalScore;
     const label = globalScore >= 400 ? 'Muy alto en este entrenamiento' :
       globalScore >= 300 ? 'Buen dominio en este entrenamiento' :
       globalScore >= 200 ? 'En desarrollo' : 'Requiere refuerzo';

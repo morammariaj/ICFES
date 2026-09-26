@@ -818,8 +818,8 @@ const QUESTIONS_DATA = [
   }
 ];
 
-// Las preguntas adicionales y ampliadas son originales de entrenamiento;
- // no se presentan como preguntas oficiales.
+// Las preguntas adicionales y ampliadas son originales de entrenamiento.
+// El banco histórico se mantiene separado y lleva atribución de fuente académica.
 if (typeof ADDITIONAL_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...ADDITIONAL_QUESTIONS);
 if (typeof EXPANDED_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...EXPANDED_QUESTIONS);
 if (typeof HISTORICAL_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...HISTORICAL_QUESTIONS);

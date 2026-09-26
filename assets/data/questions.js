@@ -816,3 +816,7 @@ const QUESTIONS_DATA = [
     "tip": "En la comprensión de lectura de inglés, busca la opción que coincida con los hechos sin añadir afirmaciones exageradas ('only', 'largest')."
   }
 ];
+
+// Las preguntas adicionales son originales de entrenamiento; no se presentan como preguntas oficiales.
+if (typeof ADDITIONAL_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...ADDITIONAL_QUESTIONS);
+

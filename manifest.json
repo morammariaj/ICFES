@@ -1,7 +1,7 @@
 {
-  "name": "Saber 11 - Simulador & Tutor ICFES",
-  "short_name": "Saber 11",
-  "description": "PWA moderna de entrenamiento oficial para el examen ICFES Saber 11 con simulador cronometrado, analítica y tutor virtual.",
+  "name": "ICFES Pro - Validación 2027 & Saber 11",
+  "short_name": "ICFES Pro",
+  "description": "PWA de preparación para Validación del Bachillerato y Saber 11: simulacros, tutor, ruta de estudio y técnicas de selección múltiple.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",

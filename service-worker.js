@@ -49,7 +49,7 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const requestUrl = new URL(event.request.url);
-  const isAppShell = /\\.(html|js|css|json)$/.test(requestUrl.pathname) || requestUrl.pathname.endsWith('/');
+  const isAppShell = /\.(html|js|css|json)$/.test(requestUrl.pathname) || requestUrl.pathname.endsWith('/');
 
   event.respondWith(
     (isAppShell ? fetch(event.request).then((networkResponse) => {

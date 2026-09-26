@@ -233,6 +233,16 @@ const ExamEngine = {
       subjectBadge.textContent = subjectNames[q.subject] || q.subject;
     }
 
+    const sessionBadge = document.getElementById('examSessionBadge');
+    if (sessionBadge) {
+      if (this.mode === 'full') {
+        sessionBadge.classList.remove('d-none');
+        sessionBadge.textContent = `Sesión ${this.currentIndex < this.sessionBreakIndex ? 1 : 2}`;
+      } else {
+        sessionBadge.classList.add('d-none');
+      }
+    }
+
     const subtopicBadge = document.getElementById('examSubtopicBadge');
     if (subtopicBadge) subtopicBadge.textContent = q.subtopic || 'General';
 

@@ -148,6 +148,19 @@ const AuthService = (() => {
       button.addEventListener('click', logout);
     });
 
+    const passwordToggle = document.getElementById('loginPasswordToggle');
+    if (passwordToggle) {
+      passwordToggle.addEventListener('click', () => {
+        const passwordInput = document.getElementById('loginPassword');
+        const icon = passwordToggle.querySelector('i');
+        if (!passwordInput) return;
+        const showing = passwordInput.type === 'text';
+        passwordInput.type = showing ? 'password' : 'text';
+        passwordToggle.setAttribute('aria-label', showing ? 'Mostrar contraseña' : 'Ocultar contraseña');
+        if (icon) icon.className = showing ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill';
+      });
+    }
+
     if (isAuthenticated()) {
       hideLogin();
       if (typeof window.initializeICFESApp === 'function') {

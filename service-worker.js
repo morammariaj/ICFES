@@ -1,4 +1,4 @@
-const CACHE_NAME = 'icfes-pro-cache-v4';
+const CACHE_NAME = 'icfes-pro-cache-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -12,6 +12,7 @@ const ASSETS_TO_CACHE = [
   './assets/data/additional_questions.js',
   './assets/data/expanded_questions.js',
   './assets/data/auxiliary_questions.js',
+  './assets/data/historical_questions.js',
   './assets/data/questions.js',
   './assets/data/study_guides.js',
   './assets/data/curriculum.js',

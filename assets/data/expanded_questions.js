@@ -216,6 +216,47 @@
   ];
   english.forEach((a,i)=>out.push(q("ing-x"+(101+i),"ingles",i<8?"Part 1 - Vocabulary":i<16?"Part 4 - Grammar":i<23?"Part 3 - Conversations":i<28?"Part 2 - Notices and Signs":"Part 6 - Reading Comprehension",i%2?"Lingüística y Gramatical":"Comunicativa y Sociolingüística",i%4===0?"Alta":"Media",a[0],a[1],opts(a[2],a[3],a[4],a[5]),a[6],a[7],a[8])));
 
+  // Normalización final de distribución: reemplaza seis registros matemáticos
+  // heredados de una plantilla incompleta por seis preguntas válidas y completa
+  // las cuotas objetivo de Lectura, Sociales e Inglés.
+  const badMath = new Set(["mat-x129","mat-x130","mat-x131","mat-x132","mat-x133","mat-x134"]);
+  while (out.some(x => badMath.has(x.id))) {
+    for (let i=out.length-1;i>=0;i--) if (badMath.has(out[i].id)) out.splice(i,1);
+  }
+  [
+    ["mat-x129","Media","Un recorrido tiene 18 km y se realiza en 30 minutos.","¿Cuál es la rapidez media expresada en km/h?",["18 km/h","24 km/h","36 km/h","54 km/h"],"C","30 minutos equivalen a 0,5 h; 18/0,5=36 km/h.","Convierte primero el tiempo a horas."],
+    ["mat-x130","Baja","Una encuesta registra 12, 15, 18, 20 y 25 minutos de estudio diario.","¿Cuál es la mediana? ",["15","18","19","20"],"B","El dato central de los cinco valores ordenados es 18.","Con una cantidad impar de datos, la mediana es el valor central."],
+    ["mat-x131","Media","Una caja contiene 4 fichas blancas y 6 negras.","¿Cuál es la probabilidad de sacar una ficha blanca?",["1/5","2/5","1/2","3/5"],"B","Hay 4 resultados favorables entre 10 posibles: 4/10=2/5.","Simplifica la fracción al final."],
+    ["mat-x132","Baja","Una función está dada por y=3x−2.","¿Qué valor toma y cuando x=8?",["20","22","24","26"],"B","3×8−2=22.","Sustituye y conserva el orden de las operaciones."],
+    ["mat-x133","Media","Un rectángulo mide 14 m de largo y 9 m de ancho.","¿Cuál es la diferencia entre su área y su perímetro numérico?",["80","96","100","112"],"A","Área=126; perímetro=46; diferencia=80.","Calcula por separado cada magnitud y respeta sus unidades."],
+    ["mat-x134","Media","Un precio pasa de $50.000 a $65.000.","¿Cuál es el aumento porcentual?",["15%","20%","25%","30%"],"D","El aumento es 15.000; 15.000/50.000=0,30=30%.","El porcentaje de cambio usa el valor inicial como denominador."]
+  ].forEach(a=>out.push(q(a[0],"matematicas","Razonamiento cuantitativo","Formulación y Ejecución",a[1],a[2],a[3],opts(...a[4]),a[5],a[6],a[7])));
+
+  out.push(q("lec-x128","lectura","Estructura y propósito","Reflexionar y evaluar","Media",
+    "Un texto primero presenta un problema de movilidad, después compara dos soluciones y termina con una recomendación condicionada al presupuesto.",
+    "¿Qué función cumple la comparación de las dos soluciones?",
+    opts("Permitir evaluar alternativas antes de formular la recomendación.","Introducir un personaje ficticio.","Demostrar que no existe ningún problema.","Reemplazar todos los datos del texto."),
+    "A","La comparación aporta criterios para la recomendación final.","Relaciona cada sección con la función que cumple en el argumento."));
+
+  out.push(q("soc-x135","sociales","Constitución y participación","Pensamiento reflexivo","Media",
+    "Una comunidad presenta una propuesta al concejo municipal y solicita que sea discutida públicamente.",
+    "¿Qué principio ciudadano se evidencia?",
+    opts("Participación en asuntos públicos.","Secreto de las decisiones públicas.","Concentración de la autoridad.","Supresión del debate."),
+    "A","La comunidad busca intervenir en una decisión pública mediante un mecanismo institucional.","Distingue participación de simple recepción de información."));
+
+  out.push(q("soc-x136","sociales","Economía y sociedad","Pensamiento social","Media",
+    "Una ciudad tiene alta demanda de vivienda y poca oferta disponible en el corto plazo.",
+    "Si los demás factores permanecen constantes, ¿qué presión puede aparecer sobre los precios?",
+    opts("Presión al alza.","Caída obligatoria a cero.","Ninguna relación posible.","Eliminación de la demanda."),
+    "A","Una demanda alta frente a una oferta escasa puede ejercer presión al alza sobre los precios.","En economía, analiza conjuntamente oferta y demanda."));
+
+  // La cuota del banco ampliado para Inglés es 37.
+  const englishIds = out.filter(x=>x.subject==="ingles");
+  if (englishIds.length>37) {
+    const keep = new Set(englishIds.slice(0,37).map(x=>x.id));
+    for (let i=out.length-1;i>=0;i--) if (out[i].subject==="ingles" && !keep.has(out[i].id)) out.splice(i,1);
+  }
+
   // Mark deterministic training metadata.
   out.forEach(x=>x.generated=true);
   window.EXPANDED_QUESTIONS = out;

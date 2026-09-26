@@ -818,6 +818,8 @@ const QUESTIONS_DATA = [
   }
 ];
 
-// Las preguntas adicionales son originales de entrenamiento; no se presentan como preguntas oficiales.
+// Las preguntas adicionales y ampliadas son originales de entrenamiento;
+ // no se presentan como preguntas oficiales.
 if (typeof ADDITIONAL_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...ADDITIONAL_QUESTIONS);
+if (typeof EXPANDED_QUESTIONS !== 'undefined') QUESTIONS_DATA.push(...EXPANDED_QUESTIONS);
 

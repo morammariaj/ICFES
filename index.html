@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Saber 11 - Simulador & Tutor ICFES Pro</title>
+  
+  <!-- PWA Meta tags -->
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Saber 11">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" href="./assets/icons/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 & Icons CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+
+  <!-- ==================== DESKTOP SIDEBAR ==================== -->
+  <aside class="desktop-sidebar">
+    <div class="d-flex align-items-center gap-3 px-2 mb-4">
+      <div class="p-2 bg-primary text-white rounded-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+        <i class="bi bi-mortarboard-fill fs-4"></i>
+      </div>
+      <div>
+        <h5 class="fw-bold mb-0">Saber 11 Pro</h5>
+        <span class="badge bg-primary-subtle text-primary">ICFES PWA Suite</span>
+      </div>
+    </div>
+
+    <!-- User Mini Profile -->
+    <div class="card border-0 bg-light rounded-4 p-3 mb-4 cursor-pointer" data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;">
+      <div class="d-flex align-items-center gap-3">
+        <div class="avatar-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 42px; height: 42px;">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <div class="overflow-hidden">
+          <h6 class="fw-bold mb-0 text-truncate" id="userSidebarName">Estudiante</h6>
+          <span class="small text-muted" id="userSidebarGoal">Meta: 400 pts</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation links -->
+    <nav class="flex-grow-1">
+      <button class="sidebar-nav-item active" data-view-target="home" data-view="home">
+        <i class="bi bi-house-door-fill fs-5"></i> Inicio
+      </button>
+      <button class="sidebar-nav-item" data-view-target="exam" data-view="exam">
+        <i class="bi bi-ui-checks-grid fs-5"></i> Simulacro
+      </button>
+      <button class="sidebar-nav-item" data-view-target="tutor" data-view="tutor">
+        <i class="bi bi-book-half fs-5"></i> Tutor & Gráficos
+      </button>
+      <button class="sidebar-nav-item" data-view-target="analytics" data-view="analytics">
+        <i class="bi bi-bar-chart-line-fill fs-5"></i> Analítica y Puntaje
+      </button>
+    </nav>
+
+    <!-- Theme toggle & info -->
+    <div class="pt-3 border-top d-flex align-items-center justify-content-between px-2">
+      <span class="small text-muted">Modo de lectura</span>
+      <button class="btn btn-sm btn-light border rounded-pill" id="themeToggleBtn" title="Cambiar tema">
+        <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==================== MOBILE TOP APP BAR ==================== -->
+  <header class="d-lg-none bg-body border-bottom sticky-top py-2 px-3 shadow-xs">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-mortarboard-fill text-primary fs-4"></i>
+        <h6 class="fw-bold mb-0">Saber 11 Pro</h6>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-light rounded-pill border" data-bs-toggle="modal" data-bs-target="#profileModal">
+          <i class="bi bi-person-circle text-primary me-1"></i> <span id="homeTargetScoreBadge">400</span> pts
+        </button>
+        <button class="btn btn-sm btn-light rounded-circle border" onclick="toggleTheme()" title="Cambiar tema">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT CONTAINER ==================== -->
+  <main class="container-xl py-3 py-lg-4 px-3 px-lg-4">
+
+    <!-- ==================== VIEW 1: HOME ==================== -->
+    <section id="view-home" class="app-view">
+      <!-- PWA Install Banner (Shown when installable) -->
+      <div id="pwaInstallBanner" class="install-banner d-none d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="p-2 bg-white text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+            <i class="bi bi-phone-fill fs-4"></i>
+          </div>
+          <div>
+            <h5 class="fw-bold mb-1">¡Instala la App en tu Celular o PC!</h5>
+            <p class="mb-0 small opacity-90">Úsala sin conexión a internet y como una app nativa con acceso directo en tu pantalla de inicio.</p>
+          </div>
+        </div>
+        <button class="btn btn-light rounded-pill px-4 fw-bold text-primary shadow-sm" id="installPwaBtn">
+          <i class="bi bi-download me-1"></i> Instalar Ahora
+        </button>
+      </div>
+
+      <!-- Welcome Hero Card -->
+      <div class="card border-0 m3-card m3-card-elevated p-4 mb-4 bg-gradient position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(13, 148, 136, 0.08) 100%);">
+        <div class="row align-items-center g-3">
+          <div class="col-md-8">
+            <span class="badge bg-primary-subtle text-primary rounded-pill mb-2 px-3 py-1 fw-bold">Preparación Oficial Saber 11</span>
+            <h2 class="fw-bold mb-2">¡Hola, <span id="userGreetingName" class="text-primary">Estudiante</span>! 👋</h2>
+            <p class="text-secondary mb-3">Tu meta de admisión es alcanzar <b id="homeTargetScore">400</b> puntos para <span id="userCareerBadge" class="badge bg-secondary-subtle text-secondary">Pregrado</span>. Entrena con preguntas reales, temporizador exacto y explicaciones paso a paso.</p>
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-m3-primary" data-start-exam="full">
+                <i class="bi bi-play-circle-fill fs-5"></i> Iniciar Examen Real
+              </button>
+              <button class="btn btn-m3-tonal" data-start-exam="graficos">
+                <i class="bi bi-graph-up-arrow me-1"></i> Taller de Gráficos ICFES
+              </button>
+            </div>
+          </div>
+          <div class="col-md-4 text-center d-none d-md-block">
+            <div class="p-3 bg-white rounded-4 shadow-sm d-inline-block border">
+              <div class="text-muted small mb-1">Mejor Puntaje Global</div>
+              <div class="display-5 fw-bold text-primary mb-0" id="homeHighestScore">---</div>
+              <div class="small text-muted">Escala oficial de 0 a 500</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics Row -->
+      <div class="row g-3 mb-4">
+        <div class="col-4">
+          <div class="card border-0 m3-card p-3 text-center">
+            <i class="bi bi-check2-circle text-success fs-3 mb-1"></i>
+            <div class="h4 fw-bold mb-0" id="homeCompletedCount">0</div>
+            <div class="text-muted small">Simulacros</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card border-0 m3-card p-3 text-center">
+            <i class="bi bi-bullseye text-primary fs-3 mb-1"></i>
+            <div class="h4 fw-bold mb-0" id="homeAccuracyRate">0%</div>
+            <div class="text-muted small">Precisión</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card border-0 m3-card p-3 text-center">
+            <i class="bi bi-trophy-fill text-warning fs-3 mb-1"></i>
+            <div class="h4 fw-bold mb-0">500</div>
+            <div class="text-muted small">Puntaje Máximo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modes Section -->
+      <h5 class="fw-bold mb-3"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Modos de Entrenamiento</h5>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <div class="card border-0 m3-card m3-card-interactive p-4 h-100" data-start-exam="full">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-danger rounded-pill">Oficial ICFES</span>
+              <span class="text-muted small"><i class="bi bi-clock me-1"></i>4h 30m</span>
+            </div>
+            <h5 class="fw-bold mb-2">Simulacro Completo Oficial</h5>
+            <p class="text-secondary small mb-3">Todas las áreas del examen Saber 11 organizadas por sesiones, con temporizador regresivo oficial, hoja de respuestas y cálculo exacto de puntaje 0 a 500.</p>
+            <div class="d-flex align-items-center text-primary fw-bold small mt-auto">
+              Comenzar prueba completa <i class="bi bi-arrow-right ms-2"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card border-0 m3-card m3-card-interactive p-4 h-100" data-start-exam="quick">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-success rounded-pill">Práctica Express</span>
+              <span class="text-muted small"><i class="bi bi-lightning me-1"></i>15 min</span>
+            </div>
+            <h5 class="fw-bold mb-2">Drill Rápido (10 Preguntas)</h5>
+            <p class="text-secondary small mb-3">Entrenamiento dinámico de 10 preguntas aleatorias con <b>retroalimentación instantánea</b> y explicación de la respuesta correcta al instante.</p>
+            <div class="d-flex align-items-center text-success fw-bold small mt-auto">
+              Iniciar práctica rápida <i class="bi bi-arrow-right ms-2"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subject Practice Section -->
+      <h5 class="fw-bold mb-3"><i class="bi bi-grid-fill text-primary me-2"></i>Entrenar por Área Específica</h5>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card border-0 m3-card m3-card-interactive p-3 text-center h-100" data-start-exam="subject" data-subject="matematicas">
+            <i class="bi bi-calculator text-primary fs-2 mb-2"></i>
+            <h6 class="fw-bold mb-1">Matemáticas</h6>
+            <span class="small text-muted">Álgebra & Prob.</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card border-0 m3-card m3-card-interactive p-3 text-center h-100" data-start-exam="subject" data-subject="lectura">
+            <i class="bi bi-book-half text-success fs-2 mb-2"></i>
+            <h6 class="fw-bold mb-1">Lectura Crítica</h6>
+            <span class="small text-muted">Filosofía & Tesis</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card border-0 m3-card m3-card-interactive p-3 text-center h-100" data-start-exam="subject" data-subject="naturales">
+            <i class="bi bi-radioactive text-warning fs-2 mb-2"></i>
+            <h6 class="fw-bold mb-1">C. Naturales</h6>
+            <span class="small text-muted">Física, Quím, Bio</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card border-0 m3-card m3-card-interactive p-3 text-center h-100" data-start-exam="subject" data-subject="sociales">
+            <i class="bi bi-people-fill text-info fs-2 mb-2"></i>
+            <h6 class="fw-bold mb-1">Sociales</h6>
+            <span class="small text-muted">Constitución & Hist</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card border-0 m3-card m3-card-interactive p-3 text-center h-100" data-start-exam="subject" data-subject="ingles">
+            <i class="bi bi-translate text-secondary fs-2 mb-2"></i>
+            <h6 class="fw-bold mb-1">Inglés</h6>
+            <span class="small text-muted">Partes 1 a 7</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="card border-0 m3-card m3-card-interactive p-3 text-center h-100" data-start-exam="graficos">
+            <i class="bi bi-graph-up-arrow text-danger fs-2 mb-2"></i>
+            <h6 class="fw-bold mb-1">Gráficos</h6>
+            <span class="small text-muted">Curvas & Tablas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: EXAM INTERFACE ==================== -->
+    <section id="view-exam" class="app-view d-none">
+      <!-- Exam Sticky Header -->
+      <div class="card border-0 m3-card p-3 mb-3 shadow-sm">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-light border rounded-pill" data-view-target="home">
+              <i class="bi bi-arrow-left"></i> Salir
+            </button>
+            <span class="badge bg-primary rounded-pill px-3 py-2" id="examSubjectBadge">Materia</span>
+            <span class="badge bg-light text-secondary border d-none d-md-inline-block" id="examSubtopicBadge">Tema</span>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <!-- Timer Badge -->
+            <div class="timer-badge" id="examTimerBadge">
+              <i class="bi bi-clock-fill"></i>
+              <span id="examTimerDisplay">00:00</span>
+            </div>
+
+            <!-- Pause button -->
+            <button class="btn btn-sm btn-light border rounded-circle" id="examPauseBtn" title="Pausar simulacro">
+              <i class="bi bi-pause-fill fs-6" id="examPauseIcon"></i>
+            </button>
+
+            <!-- Sheet modal button -->
+            <button class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#bubbleSheetModal">
+              <i class="bi bi-grid-3x3-gap-fill me-1"></i> <span class="d-none d-sm-inline">Hoja</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mt-3">
+          <div class="d-flex justify-content-between small text-muted mb-1">
+            <span id="examQuestionCounter">Pregunta 1 de 20</span>
+            <span id="examCompetencyBadge" class="fw-semibold text-primary"></span>
+          </div>
+          <div class="progress rounded-pill" style="height: 6px;">
+            <div id="examProgressBar" class="progress-bar bg-primary" style="width: 5%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pause Overlay -->
+      <div id="examPauseOverlay" class="card border-0 m3-card p-5 text-center my-5 shadow-lg d-none">
+        <i class="bi bi-pause-circle-fill text-warning display-3 mb-3"></i>
+        <h3 class="fw-bold mb-2">Examen en Pausa</h3>
+        <p class="text-muted mb-4">El temporizador se encuentra detenido. Respira hondo y continúa cuando estés listo.</p>
+        <div>
+          <button class="btn btn-m3-primary" onclick="ExamEngine.togglePause()">
+            <i class="bi bi-play-fill fs-5"></i> Reanudar Simulacro
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Card -->
+      <div id="examMainCard" class="card border-0 m3-card m3-card-elevated p-4 mb-4">
+        <!-- Context text (if reading or case study) -->
+        <div id="examContextContainer" class="d-none"></div>
+
+        <!-- Diagram or SVG graph -->
+        <div id="examDiagramContainer" class="d-none"></div>
+
+        <!-- Question Prompt -->
+        <h5 class="fw-bold mb-4" id="examQuestionStatement">Enunciado de la pregunta...</h5>
+
+        <!-- Options Container -->
+        <div id="examOptionsContainer" class="mb-3"></div>
+
+        <!-- Explanation Container (Instant feedback in practice mode) -->
+        <div id="examExplanationContainer" class="d-none"></div>
+
+        <!-- Flag Button -->
+        <div class="d-flex justify-content-end mb-2">
+          <button class="btn btn-sm btn-light border rounded-pill" id="examFlagBtn">
+            <i class="bi bi-bookmark-star me-1"></i> Marcar para revisión
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="d-flex align-items-center justify-content-between gap-2">
+        <button class="btn btn-light border rounded-pill px-4" id="examPrevBtn">
+          <i class="bi bi-arrow-left me-1"></i> Anterior
+        </button>
+        <button class="btn btn-danger rounded-pill px-4 shadow-sm" id="examFinishBtn">
+          <i class="bi bi-check2-all me-1"></i> Finalizar y Calificar
+        </button>
+        <button class="btn btn-primary rounded-pill px-4 shadow-sm" id="examNextBtn">
+          Siguiente <i class="bi bi-arrow-right ms-1"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: ANALYTICS & RESULTS ==================== -->
+    <section id="view-analytics" class="app-view d-none">
+      <div id="analyticsNoData" class="card border-0 m3-card p-5 text-center my-4 d-none">
+        <i class="bi bi-clipboard2-data-fill text-muted display-3 mb-3"></i>
+        <h4 class="fw-bold">Aún no has presentado ningún simulacro</h4>
+        <p class="text-muted mb-4">Presenta tu primera prueba para obtener un desglose detallado de tu puntaje global (0 a 500) y análisis de fortalezas.</p>
+        <div>
+          <button class="btn btn-m3-primary" data-start-exam="full">
+            <i class="bi bi-play-circle-fill"></i> Iniciar Simulacro Ahora
+          </button>
+        </div>
+      </div>
+
+      <div id="analyticsContent" class="d-none">
+        <!-- Global Score Card -->
+        <div class="card border-0 m3-card m3-card-elevated p-4 mb-4 text-center text-md-start" style="background: linear-gradient(135deg, rgba(79,70,229,0.1) 0%, rgba(16,185,129,0.1) 100%);">
+          <div class="row align-items-center g-4">
+            <div class="col-md-7">
+              <span class="badge bg-primary rounded-pill px-3 py-1 mb-2 fw-bold">Informe Oficial de Resultados</span>
+              <h1 class="display-3 fw-bold text-primary mb-1" id="analyticsGlobalScore">365</h1>
+              <h5 class="fw-bold mb-2">Puntaje Global ICFES Saber 11 (0 - 500)</h5>
+              <div id="analyticsTargetDiff" class="mb-3"></div>
+              <div class="mb-0">
+                <span id="analyticsAdmissionBadge" class="badge bg-success rounded-pill px-3 py-2 mb-2"></span>
+                <p id="analyticsAdmissionDesc" class="small text-secondary mb-0"></p>
+              </div>
+            </div>
+            <div class="col-md-5 text-center">
+              <div class="p-3 bg-white rounded-4 shadow-sm border d-inline-block w-100" style="max-width: 320px;">
+                <h6 class="fw-bold text-muted small mb-3">Comparativo vs Promedio Nacional</h6>
+                <div style="height: 180px;">
+                  <canvas id="analyticsBarChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Component Scores Breakdown -->
+        <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Puntaje por Componente (0 a 100)</h5>
+        <div class="row g-3 mb-4" id="analyticsComponentCards"></div>
+
+        <!-- Radar Chart & Diagnostics -->
+        <div class="row g-4 mb-4">
+          <div class="col-lg-6">
+            <div class="card border-0 m3-card p-4 h-100">
+              <h5 class="fw-bold mb-2"><i class="bi bi-radar text-primary me-2"></i>Mapa de Competencias</h5>
+              <p class="small text-muted mb-3">Equilibrio entre las 5 áreas fundamentales evaluadas.</p>
+              <div style="height: 320px;" class="position-relative">
+                <canvas id="analyticsRadarChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card border-0 m3-card p-4 h-100">
+              <h5 class="fw-bold mb-3"><i class="bi bi-clipboard2-pulse-fill text-danger me-2"></i>Diagnóstico Personalizado</h5>
+              
+              <div class="mb-4">
+                <h6 class="fw-bold text-success"><i class="bi bi-check-circle-fill me-2"></i>Tus Mayores Fortalezas:</h6>
+                <ul id="analyticsStrengthsList" class="small ps-3 mb-0"></ul>
+              </div>
+
+              <div>
+                <h6 class="fw-bold text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>Áreas Críticas a Pulir:</h6>
+                <ul id="analyticsWeaknessesList" class="small ps-3 mb-0"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Review of Questions -->
+        <div class="card border-0 m3-card p-4 mb-4">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+            <h5 class="fw-bold mb-0"><i class="bi bi-journal-check text-primary me-2"></i>Revisión de Preguntas con Solución Oficial</h5>
+            <div class="btn-group btn-group-sm" role="group">
+              <button class="btn btn-outline-secondary active" data-review-filter="all">Todas</button>
+              <button class="btn btn-outline-success" data-review-filter="correct">Solo Correctas</button>
+              <button class="btn btn-outline-danger" data-review-filter="incorrect">Solo Errores</button>
+            </div>
+          </div>
+          <div id="analyticsReviewList"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex flex-wrap justify-content-between gap-2 mb-5">
+          <button class="btn btn-light border rounded-pill px-4" onclick="window.print()">
+            <i class="bi bi-printer-fill me-1"></i> Imprimir o Guardar PDF
+          </button>
+          <button class="btn btn-m3-primary" data-start-exam="full">
+            <i class="bi bi-arrow-repeat me-1"></i> Repetir Simulacro
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 4: TUTOR & MASTERCLASSES ==================== -->
+    <section id="view-tutor" class="app-view d-none">
+      <div class="card border-0 m3-card p-4 mb-4" style="background: linear-gradient(135deg, rgba(79,70,229,0.06) 0%, rgba(245,158,11,0.08) 100%);">
+        <span class="badge bg-warning text-dark rounded-pill px-3 py-1 mb-2 fw-bold align-self-start">Módulo 'Aprende desde Cero'</span>
+        <h3 class="fw-bold mb-2">Tutor Virtual & Clases Maestras</h3>
+        <p class="text-secondary small mb-3">Explicaciones claras y pedagógicas sin lenguaje enredado. Domina la interpretación de gráficos del ICFES y los temas clave de Física, Química, Biología, Filosofía, Historia y Matemáticas.</p>
+        
+        <!-- Search bar -->
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0 rounded-start-pill"><i class="bi bi-search text-muted"></i></span>
+          <input type="text" class="form-control border-start-0 rounded-end-pill py-2" id="tutorSearchInput" placeholder="Buscar por tema (ej. gráficas, newton, tutela, porcentajes...)">
+        </div>
+      </div>
+
+      <!-- Categories Filter -->
+      <div class="d-flex gap-2 overflow-x-auto pb-2 mb-4">
+        <button class="btn btn-sm btn-outline-primary rounded-pill px-3 active" data-tutor-category="all">Todos</button>
+        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" data-tutor-category="Especial Gráficos">🔥 Gráficos ICFES</button>
+        <button class="btn btn-sm btn-outline-primary rounded-pill px-3" data-tutor-category="Matemáticas">Matemáticas</button>
+        <button class="btn btn-sm btn-outline-success rounded-pill px-3" data-tutor-category="Lectura Crítica">Lectura Crítica</button>
+        <button class="btn btn-sm btn-outline-warning rounded-pill px-3" data-tutor-category="Ciencias Naturales">C. Naturales</button>
+        <button class="btn btn-sm btn-outline-info rounded-pill px-3" data-tutor-category="Sociales">Sociales & Ciudadanas</button>
+        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" data-tutor-category="Inglés">Inglés</button>
+      </div>
+
+      <!-- Guides Cards Grid -->
+      <div class="row g-4" id="tutorGuidesContainer"></div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MOBILE BOTTOM NAVIGATION ==================== -->
+  <nav class="bottom-nav">
+    <button class="bottom-nav-item active" data-view-target="home" data-view="home">
+      <div class="nav-icon-container"><i class="bi bi-house-door-fill"></i></div>
+      <span>Inicio</span>
+    </button>
+    <button class="bottom-nav-item" data-view-target="exam" data-view="exam">
+      <div class="nav-icon-container"><i class="bi bi-ui-checks-grid"></i></div>
+      <span>Simulacro</span>
+    </button>
+    <button class="bottom-nav-item" data-view-target="tutor" data-view="tutor">
+      <div class="nav-icon-container"><i class="bi bi-book-half"></i></div>
+      <span>Tutor</span>
+    </button>
+    <button class="bottom-nav-item" data-view-target="analytics" data-view="analytics">
+      <div class="nav-icon-container"><i class="bi bi-bar-chart-line-fill"></i></div>
+      <span>Puntajes</span>
+    </button>
+  </nav>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Modal: Bubble Sheet (Hoja de Respuestas) -->
+  <div class="modal fade" id="bubbleSheetModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content rounded-4 border-0">
+        <div class="modal-header border-bottom-0 pb-0">
+          <div>
+            <h5 class="modal-title fw-bold">Hoja Digital de Respuestas</h5>
+            <span class="small text-muted" id="bubbleSheetAnsweredCount">0 / 0 respondidas</span>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex align-items-center justify-content-around small text-muted mb-3 p-2 bg-light rounded-3">
+            <span><span class="badge bg-primary me-1">&nbsp;</span> Respondida</span>
+            <span><span class="badge bg-light text-dark border me-1">&nbsp;</span> Pendiente</span>
+            <span><span class="badge bg-warning me-1">&nbsp;</span> Marcada</span>
+          </div>
+          <div class="question-bubble-grid" id="bubbleSheetGrid"></div>
+        </div>
+        <div class="modal-footer border-top-0 pt-0">
+          <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Seguir respondiendo</button>
+          <button type="button" class="btn btn-danger rounded-pill shadow-sm" onclick="ExamEngine.confirmFinish()">Entregar Examen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Profile & Goals -->
+  <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title fw-bold"><i class="bi bi-person-gear text-primary me-2"></i>Perfil y Metas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="profileForm">
+          <div class="modal-body py-0">
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Tu Nombre o Apodo:</label>
+              <input type="text" class="form-control rounded-pill px-3" id="userNameInput" required placeholder="Ej: María José">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Puntaje Global Meta (0 a 500):</label>
+              <input type="number" class="form-control rounded-pill px-3" id="targetScoreInput" min="100" max="500" value="400" required>
+              <div class="form-text small">Recomendado para becas universitarias: 360 a 450+ puntos.</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Carrera o Universidad a la que aspiras:</label>
+              <input type="text" class="form-control rounded-pill px-3" id="careerInput" placeholder="Ej: Medicina - U. Nacional / Ingeniería">
+            </div>
+          </div>
+          <div class="modal-footer border-top-0">
+            <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">Guardar Cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Masterclass Reader -->
+  <div class="modal fade" id="guideModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content rounded-4 border-0">
+        <div class="modal-header border-bottom">
+          <div>
+            <span class="badge bg-primary rounded-pill mb-1" id="guideModalCategory">Categoría</span>
+            <h5 class="modal-title fw-bold" id="guideModalTitle">Título de la Lección</h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4" id="guideModalBody">
+          <!-- Guide content injected dynamically -->
+        </div>
+        <div class="modal-footer border-top">
+          <button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-m3-primary" id="guideModalPracticeBtn">
+            <i class="bi bi-play-circle me-1"></i> Practicar Preguntas de Este Tema
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: PWA Install Instructions -->
+  <div class="modal fade" id="installHelpModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title fw-bold"><i class="bi bi-phone-fill text-primary me-2"></i>Cómo instalar en tu dispositivo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body small">
+          <h6 class="fw-bold text-primary"><i class="bi bi-android2 me-1"></i>En Android (Google Chrome):</h6>
+          <ol class="mb-3">
+            <li>Toca los tres puntos verticales <b>(⋮)</b> en la esquina superior derecha del navegador.</li>
+            <li>Selecciona <b>"Agregar a la pantalla principal"</b> o <b>"Instalar aplicación"</b>.</li>
+            <li>Confirma la instalación y aparecerá el icono oficial en tus aplicaciones.</li>
+          </ol>
+
+          <h6 class="fw-bold text-dark"><i class="bi bi-apple me-1"></i>En iPhone / iPad (Safari):</h6>
+          <ol class="mb-0">
+            <li>Toca el botón <b>Compartir</b> (el icono del cuadrado con una flecha hacia arriba).</li>
+            <li>Baja en el menú y selecciona <b>"Agregar a la pantalla de inicio"</b> (+).</li>
+            <li>Toca <b>"Agregar"</b> en la esquina superior derecha.</li>
+          </ol>
+        </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Entendido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1080;" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- App Data and Logic -->
+  <script src="./assets/data/questions.js"></script>
+  <script src="./assets/data/study_guides.js"></script>
+  <script src="./assets/js/analytics.js"></script>
+  <script src="./assets/js/exam.js"></script>
+  <script src="./assets/js/tutor.js"></script>
+  <script src="./assets/js/app.js"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('ServiceWorker registrado con éxito:', reg.scope))
+          .catch(err => console.log('ServiceWorker falló:', err));
+      });
+    }
+  </script>
+</body>
+</html>

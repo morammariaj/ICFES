@@ -52,8 +52,9 @@ const AnalyticsModule = {
     // Diagnostics: Strengths & Weaknesses
     this.renderDiagnostics(result.componentScores);
 
-    // Admission & Scholarships chances
+    // Interpretación interna del entrenamiento
     this.renderAdmissionEstimates(result.globalScore);
+    this.renderTopicDiagnostics(result.diagnostic || {});
 
     // Question review list
     this.renderQuestionReview(result.questionReview);
@@ -301,24 +302,12 @@ const AnalyticsModule = {
     const badgeEl = document.getElementById('analyticsAdmissionBadge');
     const descEl = document.getElementById('analyticsAdmissionDesc');
     if (!badgeEl || !descEl) return;
-
-    if (globalScore >= 380) {
-      badgeEl.className = 'badge bg-success rounded-pill px-3 py-2';
-      badgeEl.textContent = 'Rango Sobresaliente (Top 1% Nacional)';
-      descEl.innerHTML = 'Con este puntaje tienes altísima probabilidad de admisión directa a carreras de altísima demanda (Medicina, Derecho, Ingenierías de alta exigencia) en la <b>Universidad Nacional (UNAL)</b>, <b>Universidad de Antioquia</b>, <b>UIS</b>, y aspirar a <b>Distinción Andrés Bello</b> y becas completas.';
-    } else if (globalScore >= 320) {
-      badgeEl.className = 'badge bg-primary rounded-pill px-3 py-2';
-      badgeEl.textContent = 'Rango Muy Competitivo (Top 10%)';
-      descEl.innerHTML = 'Perfil competitivo para la gran mayoría de carreras universitarias en Colombia y convocatorias de becas y subsidios de matrícula cero / Generación E.';
-    } else if (globalScore >= 260) {
-      badgeEl.className = 'badge bg-warning text-dark rounded-pill px-3 py-2';
-      badgeEl.textContent = 'Rango Promedio Superior';
-      descEl.innerHTML = 'Estás por encima del promedio nacional (250 pts). Enfócate en las 2 materias que tienes por debajo de 60 para subir tu puntaje global a más de 340.';
-    } else {
-      badgeEl.className = 'badge bg-secondary rounded-pill px-3 py-2';
-      badgeEl.textContent = 'Rango en Desarrollo';
-      descEl.innerHTML = 'Puntaje en etapa inicial. Te recomendamos estudiar los módulos del Tutor Virtual de la app comenzando por el <b>Taller de Gráficos ICFES</b> y hacer prácticas rápidas de 10 preguntas a diario.';
-    }
+    const label = globalScore >= 400 ? 'Muy alto en este entrenamiento' :
+      globalScore >= 300 ? 'Buen dominio en este entrenamiento' :
+      globalScore >= 200 ? 'En desarrollo' : 'Requiere refuerzo';
+    badgeEl.className = 'badge bg-primary-subtle text-primary rounded-pill px-3 py-2';
+    badgeEl.textContent = label;
+    descEl.textContent = 'Este indicador es únicamente interno: resume la precisión de este banco de entrenamiento y no equivale a un puntaje oficial del ICFES ni predice admisiones.';
   },
 
   setupReviewFilters() {

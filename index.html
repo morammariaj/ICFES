@@ -137,7 +137,7 @@
             <div class="p-3 bg-white rounded-4 shadow-sm d-inline-block border">
               <div class="text-muted small mb-1">Mejor Puntaje Global</div>
               <div class="display-5 fw-bold text-primary mb-0" id="homeHighestScore">---</div>
-              <div class="small text-muted">Escala oficial de 0 a 500</div>
+              <div class="small text-muted">Escala interna de entrenamiento 0 a 500</div>
             </div>
           </div>
         </div>
@@ -348,7 +348,7 @@
       <div id="analyticsNoData" class="card border-0 m3-card p-5 text-center my-4 d-none">
         <i class="bi bi-clipboard2-data-fill text-muted display-3 mb-3"></i>
         <h4 class="fw-bold">Aún no has presentado ningún simulacro</h4>
-        <p class="text-muted mb-4">Presenta tu primera prueba para obtener un desglose detallado de tu puntaje global (0 a 500) y análisis de fortalezas.</p>
+        <p class="text-muted mb-4">Presenta tu primera prueba para obtener un desglose detallado de tu desempeño en el banco de entrenamiento y análisis de fortalezas.</p>
         <div>
           <button class="btn btn-m3-primary" data-start-exam="full">
             <i class="bi bi-play-circle-fill"></i> Iniciar Simulacro Ahora
@@ -412,6 +412,13 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Topic / competency diagnostics -->
+        <div class="card border-0 m3-card p-4 mb-4">
+          <h5 class="fw-bold mb-2"><i class="bi bi-bullseye text-primary me-2"></i>Subtemas que más necesitan práctica</h5>
+          <p class="small text-muted mb-3">Se calcula sobre tus respuestas de este entrenamiento. Sirve para decidir qué estudiar después.</p>
+          <div id="analyticsTopicDiagnostics"></div>
         </div>
 
         <!-- Detailed Review of Questions -->

@@ -53,14 +53,11 @@
     [134,2,5,20,"Una velocidad de 20 m/s se mantiene durante 5 s.","¿Qué distancia se recorre?",["4 m","25 m","100 m","400 m"],"C","d=v×t=20×5=100 m.","Si la velocidad es constante, usa d=vt."]
   ].forEach((a)=>{
     const id=Number(a[0]);
-    if(id<=120){
+    if(id>=101 && id<=128){
       const [context,question,choices,correct,explanation,tip]=a.slice(4,10);
-      const sub=id<=106?"Porcentajes y variación":id<=112?"Proporcionalidad y unidades":"Álgebra y funciones";
+      const sub=id<=106?"Porcentajes y variación":id<=112?"Proporcionalidad y unidades":id<=120?"Álgebra y funciones":"Geometría y medición";
       const competency=id%3===0?"Argumentación":id%3===1?"Interpretación y Representación":"Formulación y Ejecución";
       out.push(q("mat-x"+id,"matematicas",sub,competency,id%2?"Media":"Baja",context,question,opts(...choices),correct,explanation,tip));
-    } else if(id>=121 && id<=128){
-      const [context,question,choices,correct,explanation,tip]=a.slice(3,9);
-      out.push(q("mat-x"+id,"matematicas","Geometría y medición",id%2?"Formulación y Ejecución":"Interpretación y Representación",id%2?"Baja":"Media",context,question,opts(...choices),correct,explanation,tip));
     }
   });
 

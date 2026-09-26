@@ -83,11 +83,27 @@ const ExamEngine = {
       return;
     }
 
-    this.questions = pool;
+    // Cada intento recibe un orden nuevo de preguntas y de opciones.\n    this.questions = pool.map(q => this.randomizeQuestion(q));
     this.startTimer();
     switchView('exam');
     this.renderQuestion();
     this.renderBubbleSheet();
+  },
+
+  randomizeQuestion(question) {
+    const copy = {
+      ...question,
+      options: Array.isArray(question.options) ? question.options.map(opt => ({ ...opt })) : []
+    };
+    if (copy.options.length > 1) {
+      const correctText = copy.options.find(opt => opt.key === copy.correct)?.text;
+      copy.options = this.shuffleArray(copy.options);
+      copy.options.forEach((opt, index) => {
+        opt.key = String.fromCharCode(65 + index);
+      });
+      copy.correct = copy.options.find(opt => opt.text === correctText)?.key || copy.correct;
+    }
+    return copy;
   },
 
   shuffleArray(array) {
@@ -425,42 +441,39 @@ const ExamEngine = {
       });
     });
 
-    // ICFES Component scaled score (0 to 100)
+    // Diagnóstico interno de entrenamiento. No reproduce la fórmula oficial del ICFES.
     const componentScores = {};
     const performanceLevels = {};
-
     ['matematicas', 'lectura', 'naturales', 'sociales', 'ingles'].forEach(sub => {
       const st = subjectStats[sub];
-      let scaled = 0;
-      if (st.total > 0) {
-        // Base ICFES distribution model: scale from 20 to 100
-        const rawPct = st.correct / st.total;
-        scaled = Math.round(25 + rawPct * 75);
-      } else {
-        // In practice mode for other subjects, extrapolate from overall accuracy
-        const overallRate = totalCorrect / this.questions.length;
-        scaled = Math.round(25 + overallRate * 75);
-      }
-      scaled = Math.max(0, Math.min(100, scaled));
+      const scaled = st.total > 0 ? Math.round((st.correct / st.total) * 100) : 0;
       componentScores[sub] = scaled;
-
-      // Determine ICFES Performance Level
-      if (scaled <= 35) performanceLevels[sub] = 1;
-      else if (scaled <= 50) performanceLevels[sub] = 2;
-      else if (scaled <= 70) performanceLevels[sub] = 3;
+      if (scaled < 40) performanceLevels[sub] = 1;
+      else if (scaled < 60) performanceLevels[sub] = 2;
+      else if (scaled < 80) performanceLevels[sub] = 3;
       else performanceLevels[sub] = 4;
     });
 
-    // Official ICFES Global Score (0 to 500)
-    // Weighted formula: (Mat*3 + Lec*3 + Nat*3 + Soc*3 + Ing*1) / 13 * 5
-    const weightedSum = (
-      componentScores.matematicas * 3 +
-      componentScores.lectura * 3 +
-      componentScores.naturales * 3 +
-      componentScores.sociales * 3 +
-      componentScores.ingles * 1
-    );
-    const globalScore = Math.round((weightedSum / 13) * 5);
+    const diagnostic = {};
+    this.questions.forEach(q => {
+      const userKey = this.userAnswers[q.id];
+      const isCorrect = userKey === q.correct;
+      const keys = [
+        ['subtopic', q.subtopic || 'General'],
+        ['competency', q.competency || 'General']
+      ];
+      keys.forEach(([kind, value]) => {
+        const id = kind + ':' + value;
+        if (!diagnostic[id]) diagnostic[id] = { kind, label: value, correct: 0, total: 0 };
+        diagnostic[id].total++;
+        if (isCorrect) diagnostic[id].correct++;
+      });
+    });
+    Object.values(diagnostic).forEach(item => {
+      item.accuracyPct = Math.round((item.correct / item.total) * 100);
+    });
+
+    const globalScore = Math.round((totalCorrect / this.questions.length) * 500);
 
     return {
       id: 'sim-' + Date.now(),

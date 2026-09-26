@@ -171,21 +171,50 @@
       <!-- Modes Section -->
       <h5 class="fw-bold mb-3"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Modos de Entrenamiento</h5>
       <div class="row g-3 mb-4">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="card border-0 m3-card m3-card-interactive p-4 h-100" data-start-exam="full">
+
             <div class="d-flex align-items-center justify-content-between mb-3">
               <span class="badge bg-primary-subtle text-primary rounded-pill">Simulacro de entrenamiento</span>
-              <span class="text-muted small"><i class="bi bi-clock me-1"></i>4h 30m</span>
+              <span class="text-muted small"><i class="bi bi-clock me-1"></i>2 sesiones · 4h 30m c/u</span>
             </div>
             <h5 class="fw-bold mb-2">Simulacro Completo</h5>
-            <p class="text-secondary small mb-3">Todas las áreas del examen Saber 11 organizadas por sesiones, con temporizador regresivo, hoja de respuestas y estimación interna de desempeño; el puntaje oficial lo determina el ICFES.</p>
+            <p class="text-secondary small mb-3">Cinco pruebas y dos sesiones de 4 h 30 min. El simulador usa la estructura 2026 publicada por el ICFES y un banco propio de entrenamiento; el puntaje de la app es diagnóstico interno.</p>
             <div class="d-flex align-items-center text-primary fw-bold small mt-auto">
               Comenzar prueba completa <i class="bi bi-arrow-right ms-2"></i>
             </div>
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
+          <div class="card border-0 m3-card m3-card-interactive p-4 h-100" data-start-exam="aux-socio">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-info-subtle text-info rounded-pill">Cuestionario auxiliar</span>
+              <span class="text-muted small"><i class="bi bi-clock me-1"></i>Sin puntaje</span>
+            </div>
+            <h5 class="fw-bold mb-2">Socioeconómico</h5>
+            <p class="text-secondary small mb-3">24 preguntas de práctica sobre hogar, conectividad, recursos y condiciones de estudio. Las respuestas no se califican.</p>
+            <div class="d-flex align-items-center text-info fw-bold small mt-auto">
+              Completar cuestionario <i class="bi bi-arrow-right ms-2"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card border-0 m3-card m3-card-interactive p-4 h-100" data-start-exam="aux-clima">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-secondary-subtle text-secondary rounded-pill">Cuestionario auxiliar</span>
+              <span class="text-muted small"><i class="bi bi-clock me-1"></i>Sin puntaje</span>
+            </div>
+            <h5 class="fw-bold mb-2">Clima escolar</h5>
+            <p class="text-secondary small mb-3">24 afirmaciones de práctica sobre convivencia, seguridad, participación, inclusión y ambiente de aprendizaje.</p>
+            <div class="d-flex align-items-center text-secondary fw-bold small mt-auto">
+              Completar cuestionario <i class="bi bi-arrow-right ms-2"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
           <div class="card border-0 m3-card m3-card-interactive p-4 h-100" data-start-exam="quick">
             <div class="d-flex align-items-center justify-content-between mb-3">
               <span class="badge bg-success rounded-pill">Práctica Express</span>
@@ -624,6 +653,7 @@
   <!-- App Data and Logic -->
   <script src="./assets/data/additional_questions.js"></script>
   <script src="./assets/data/expanded_questions.js"></script>
+  <script src="./assets/data/auxiliary_questions.js"></script>
   <script src="./assets/data/questions.js"></script>
   <script src="./assets/data/study_guides.js"></script>
   <script src="./assets/js/analytics.js"></script>

@@ -310,6 +310,37 @@ const AnalyticsModule = {
     }
   },
 
+  renderTopicDiagnostics(diagnostic, isQuick = false) {
+    const container = document.getElementById('analyticsTopicDiagnostics');
+    if (!container) return;
+    const items = Object.values(diagnostic || {})
+      .sort((a,b) => (a.accuracyPct - b.accuracyPct) || ((b.unanswered || 0) - (a.unanswered || 0)))
+      .slice(0, 8);
+    if (!items.length) {
+      container.innerHTML = '<div class="text-muted small">Todavía no hay suficiente información diagnóstica.</div>';
+      return;
+    }
+    container.innerHTML = items.map(item => {
+      const timeRisk = isQuick && (item.unanswered || 0) > 0;
+      const coverage = item.coveragePct ?? 100;
+      const label = item.label || 'General';
+      return `
+        <div class="border rounded-3 p-3 mb-2">
+          <div class="d-flex justify-content-between gap-3 align-items-start">
+            <div>
+              <div class="fw-bold">${label}</div>
+              <div class="small text-muted">${item.correct} correctas · ${item.answered || 0} respondidas · ${item.unanswered || 0} sin responder</div>
+            </div>
+            <span class="badge ${timeRisk ? 'bg-warning text-dark' : 'bg-primary-subtle text-primary'} rounded-pill">${item.accuracyPct}% precisión</span>
+          </div>
+          ${timeRisk ? '<div class="small text-warning-emphasis fw-semibold mt-2"><i class="bi bi-stopwatch me-1"></i>Hay preguntas sin responder aquí: trabaja también velocidad y estrategia de resolución.</div>' : ''}
+          <div class="progress mt-2" style="height:6px;"><div class="progress-bar bg-primary" style="width:${coverage}%"></div></div>
+          <div class="small text-muted mt-1">Cobertura: ${coverage}%</div>
+        </div>
+      `;
+    }).join('');
+  },
+
   renderAdmissionEstimates(result) {
     const badgeEl = document.getElementById('analyticsAdmissionBadge');
     const descEl = document.getElementById('analyticsAdmissionDesc');

@@ -14,6 +14,8 @@ const ExamEngine = {
   isPaused: false,
   instantFeedback: false,
   isActive: false,
+  sessionNumber: 1,
+  sessionBreakIndex: 120,
 
   init() {
     this.setupListeners();
@@ -56,10 +58,17 @@ const ExamEngine = {
     this.flagged.clear();
     this.isPaused = false;
     this.isActive = true;
+    this.sessionNumber = 1;
+    this.sessionBreakIndex = 120;
 
     // Filter questions
     let pool = [...QUESTIONS_DATA];
-    if (mode === 'subject' && subject) {
+    if (mode === 'aux-socio' || mode === 'aux-clima') {
+      const key = mode === 'aux-socio' ? 'socioeconomico' : 'clima';
+      pool = (typeof AUXILIARY_QUESTIONS !== 'undefined' ? [...AUXILIARY_QUESTIONS[key]] : []);
+      this.instantFeedback = false;
+      this.timerSeconds = 30 * 60;
+    } else if (mode === 'subject' && subject) {
       pool = pool.filter(q => q.subject === subject);
       this.instantFeedback = true;
       this.timerSeconds = pool.length * 120; // 2 min per question
@@ -72,9 +81,12 @@ const ExamEngine = {
       this.instantFeedback = true;
       this.timerSeconds = 15 * 60; // 15 mins
     } else {
-      // Full simulation
+      // Simulacro completo: estructura estándar 2026 del ICFES.
+      // Sesión 1: 25 Matemáticas + 41 Lectura + 25 Sociales + 29 Naturales = 120.
+      // Sesión 2: 25 Matemáticas + 25 Sociales + 29 Naturales + 55 Inglés = 134.
+      pool = this.buildCurrentFullPool();
       this.instantFeedback = false;
-      this.timerSeconds = 4.5 * 3600; // 4 hours 30 mins official session duration
+      this.timerSeconds = 4.5 * 3600;
     }
 
     if (pool.length === 0) {
@@ -88,6 +100,38 @@ const ExamEngine = {
     switchView('exam');
     this.renderQuestion();
     this.renderBubbleSheet();
+  },
+
+  buildCurrentFullPool() {
+    const blueprint = {
+      matematicas: 50,
+      lectura: 41,
+      sociales: 50,
+      naturales: 58,
+      ingles: 55
+    };
+    const bySubject = {};
+    Object.keys(blueprint).forEach(subject => {
+      const available = QUESTIONS_DATA.filter(q => q.subject === subject);
+      if (available.length < blueprint[subject]) {
+        throw new Error('Banco insuficiente para ' + subject + ': ' + available.length + '/' + blueprint[subject]);
+      }
+      bySubject[subject] = this.shuffleArray(available).slice(0, blueprint[subject]);
+    });
+
+    const s1 = [
+      ...this.shuffleArray(bySubject.matematicas.slice(0,25)),
+      ...this.shuffleArray(bySubject.lectura),
+      ...this.shuffleArray(bySubject.sociales.slice(0,25)),
+      ...this.shuffleArray(bySubject.naturales.slice(0,29))
+    ];
+    const s2 = [
+      ...this.shuffleArray(bySubject.matematicas.slice(25,50)),
+      ...this.shuffleArray(bySubject.sociales.slice(25,50)),
+      ...this.shuffleArray(bySubject.naturales.slice(29,58)),
+      ...this.shuffleArray(bySubject.ingles)
+    ];
+    return [...s1, ...s2];
   },
 
   randomizeQuestion(question) {
@@ -182,7 +226,9 @@ const ExamEngine = {
         naturales: 'Ciencias Naturales',
         sociales: 'Sociales y Ciudadanas',
         ingles: 'Inglés',
-        graficos: 'Taller de Gráficos'
+        graficos: 'Taller de Gráficos',
+        socioeconomico: 'Cuestionario socioeconómico',
+        clima: 'Clima escolar'
       };
       subjectBadge.textContent = subjectNames[q.subject] || q.subject;
     }
@@ -322,6 +368,16 @@ const ExamEngine = {
   nextQuestion() {
     if (this.currentIndex < this.questions.length - 1) {
       this.currentIndex++;
+      if (this.mode === 'full' && this.currentIndex === this.sessionBreakIndex && this.sessionNumber === 1) {
+        this.sessionNumber = 2;
+        this.timerSeconds = 4.5 * 3600;
+        this.isPaused = true;
+        const overlay = document.getElementById('examPauseOverlay');
+        if (overlay) {
+          overlay.innerHTML = '<i class="bi bi-cup-hot-fill text-warning display-3 mb-3"></i><h3 class="fw-bold mb-2">Fin de la sesión 1</h3><p class="text-muted mb-4">Has completado las 120 preguntas de la primera sesión. Tómate el descanso correspondiente y luego continúa con la sesión 2. El nuevo temporizador es de 4 h 30 min.</p><div><button class="btn btn-m3-primary" onclick="ExamEngine.togglePause()"><i class="bi bi-play-fill fs-5"></i> Iniciar sesión 2</button></div>';
+          overlay.classList.remove('d-none');
+        }
+      }
       this.renderQuestion();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -387,6 +443,24 @@ const ExamEngine = {
   finish() {
     this.isActive = false;
     clearInterval(this.timerInterval);
+
+    if (this.mode === 'aux-socio' || this.mode === 'aux-clima') {
+      const key = this.mode === 'aux-socio' ? 'socioeconomico' : 'clima';
+      const historyKey = 'icfes_auxiliary_history_v1';
+      const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+      history.unshift({
+        id: 'aux-' + Date.now(),
+        date: new Date().toISOString(),
+        type: key,
+        totalQuestions: this.questions.length,
+        answeredCount: Object.keys(this.userAnswers).length,
+        answers: { ...this.userAnswers }
+      });
+      localStorage.setItem(historyKey, JSON.stringify(history.slice(0,20)));
+      switchView('home');
+      showToast('Cuestionario guardado. Sus respuestas no se califican ni afectan el puntaje.', 'info');
+      return;
+    }
 
     // Close any open modal
     const bubbleModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('bubbleSheetModal'));
@@ -486,6 +560,7 @@ const ExamEngine = {
       globalScore: globalScore,
       componentScores: componentScores,
       performanceLevels: performanceLevels,
+      diagnostic: diagnostic,
       questionReview: questionReview
     };
   }

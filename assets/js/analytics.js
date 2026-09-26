@@ -358,7 +358,7 @@ const AnalyticsModule = {
     reviewList.forEach(item => {
       const q = item.question;
       const card = document.createElement('div');
-      card.className = `card border-0 shadow-sm rounded-4 p-3 mb-3 ${item.isCorrect ? 'bg-light' : 'bg-light border-start border-danger border-4'}`;
+      card.className = `card border-0 shadow-sm rounded-4 p-3 mb-3 ${item.isCorrect ? 'bg-light' : 'bg-light border border-danger border-start border-4'}`;
       
       card.innerHTML = `
         <div class="d-flex align-items-center justify-content-between mb-2">

@@ -277,7 +277,9 @@ const ExamEngine = {
 
     const nextBtn = document.getElementById('examNextBtn');
     if (nextBtn) {
-      nextBtn.textContent = this.currentIndex === this.questions.length - 1 ? 'Revisar Hoja' : 'Siguiente';
+      nextBtn.innerHTML = this.currentIndex === this.questions.length - 1
+        ? '<i class="bi bi-grid-3x3-gap-fill me-1"></i>Revisar Hoja'
+        : 'Siguiente <i class="bi bi-arrow-right ms-1"></i>';
     }
 
     this.renderBubbleSheet();

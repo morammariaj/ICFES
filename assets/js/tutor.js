@@ -40,7 +40,7 @@ const TutorModule = {
     let list = STUDY_GUIDES_DATA || [];
 
     if (this.currentCategory !== 'all') {
-      list = list.filter(g => g.category.toLowerCase().includes(this.currentCategory.toLowerCase()));
+      list = list.filter(g => g.category.toLowerCase().trim().includes(this.currentCategory.toLowerCase().trim()));
     }
 
     if (this.searchQuery) {

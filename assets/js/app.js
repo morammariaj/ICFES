@@ -104,7 +104,7 @@ function switchView(viewName) {
   }
 
   // If navigating to exam without an active test, start full exam
-  if (viewName === 'exam' && (!ExamEngine.questions || ExamEngine.questions.length === 0)) {
+  if (viewName === 'exam' && !ExamEngine.isActive) {
     ExamEngine.start('full');
     return;
   }
@@ -269,7 +269,7 @@ function showToast(message, type = 'info') {
   if (!toastContainer) return;
 
   const toastEl = document.createElement('div');
-  toastEl.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'danger' ? 'danger' : 'primary'} border-0 shadow-lg`;
+  toastEl.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'danger' ? 'danger' : type === 'warning' ? 'warning' : 'primary'} border-0 shadow-lg`;
   toastEl.setAttribute('role', 'alert');
   toastEl.setAttribute('aria-live', 'assertive');
   toastEl.setAttribute('aria-atomic', 'true');

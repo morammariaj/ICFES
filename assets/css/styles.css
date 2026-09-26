@@ -562,3 +562,131 @@ body {
   background-color: #7f1d1d !important;
   color: #fef2f2 !important;
 }
+
+/* --------------------------------------------------------------------------
+   Temporary authentication gate
+   -------------------------------------------------------------------------- */
+body.auth-locked {
+  overflow: hidden;
+}
+
+.app-auth-hidden {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.login-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.18), transparent 38%),
+    radial-gradient(circle at bottom right, rgba(13, 148, 136, 0.14), transparent 34%),
+    var(--md-sys-color-surface-dim);
+}
+
+.login-shell {
+  width: min(100%, 470px);
+  margin: auto;
+}
+
+.login-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.login-logo {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 22px;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font-size: 2rem;
+  box-shadow: var(--md-elevation-3);
+}
+
+.login-card {
+  overflow: hidden;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-surface);
+}
+
+.login-card .form-control,
+.login-card .input-group-text,
+.login-card .btn-outline-secondary {
+  border-color: var(--md-sys-color-outline);
+}
+
+.login-card .form-control {
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+}
+
+.login-card .form-control::placeholder {
+  color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.9;
+}
+
+.login-input-icon {
+  color: var(--md-sys-color-primary);
+  background: var(--md-sys-color-surface-container);
+}
+
+.login-future-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--md-shape-corner-md);
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+[data-bs-theme="dark"] .login-gate {
+  background:
+    radial-gradient(circle at top left, rgba(129, 140, 248, 0.22), transparent 38%),
+    radial-gradient(circle at bottom right, rgba(45, 212, 191, 0.12), transparent 34%),
+    #0b1120;
+}
+
+[data-bs-theme="dark"] .login-card .btn-outline-secondary {
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface);
+}
+
+@media (max-width: 480px) {
+  .login-gate {
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .login-shell {
+    margin-top: 4vh;
+  }
+
+  .login-card .card-body {
+    padding: 1.35rem !important;
+  }
+
+  .login-logo {
+    width: 60px;
+    height: 60px;
+    font-size: 1.7rem;
+  }
+}

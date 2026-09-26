@@ -48,3 +48,7 @@ Esta aplicación fue creada con arquitectura estática pura, perfecta para publi
 5. ¡Listo! En 1 minuto GitHub te dará un enlace público (ej. `https://tu-usuario.github.io/saber11-app/`).
 6. Abre ese enlace desde Google Chrome en tu celular Android o Safari en tu iPhone y selecciona **"Agregar a la pantalla principal"** para tenerla instalada como una app nativa.
 \n\n## 🧭 Ruta 2027\nLa app ahora incluye modalidad **Validación del Bachillerato** (principal) y **Saber 11°**, un mapa seleccionable de temas para las cinco pruebas y un bloque de técnicas de resolución tipo selección múltiple. La ruta está diseñada para enseñar temas completos, no solo definiciones, y relacionarlos con práctica, descarte, velocidad y revisión de errores.\n\nLos cuadernillos entregados por el usuario sirven como material de entrenamiento histórico. La estructura oficial vigente debe contrastarse con la guía ICFES de la convocatoria correspondiente.\n
+
+## Banco de entrenamiento actual
+
+La app cuenta actualmente con 47 preguntas cargadas en el banco de práctica: material de entrenamiento existente más preguntas originales creadas para esta app. Las preguntas originales están marcadas como `entrenamiento_nuevo` y no se presentan como preguntas oficiales del ICFES. El diagnóstico de 0–500 de la app es interno y no reproduce la fórmula oficial de calificación.

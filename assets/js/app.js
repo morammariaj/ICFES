@@ -20,7 +20,12 @@ const AppState = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+let icfesAppInitialized = false;
+
+function initializeICFESApp() {
+  if (icfesAppInitialized) return;
+  icfesAppInitialized = true;
+
   loadStoredData();
   setupEventListeners();
   checkPwaInstallability();
@@ -29,6 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
   ExamEngine.init();
   TutorModule.init();
   AnalyticsModule.init();
+}
+
+window.initializeICFESApp = initializeICFESApp;
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.AuthService && !AuthService.isAuthenticated()) return;
+  initializeICFESApp();
 });
 
 function loadStoredData() {

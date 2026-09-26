@@ -60,6 +60,7 @@ const ExamEngine = {
     this.isActive = true;
     this.sessionNumber = 1;
     this.sessionBreakIndex = 120;
+    this.timedOut = false;
 
     // Filter questions
     let pool = [...QUESTIONS_DATA];
@@ -169,8 +170,9 @@ const ExamEngine = {
           this.updateTimerDisplay();
         } else {
           clearInterval(this.timerInterval);
+          this.timedOut = true;
           this.finish();
-          showToast('¡Tiempo concluido! El examen se ha calificado automáticamente.', 'warning');
+          showToast('¡Tiempo concluido! El intento se ha cerrado y las preguntas sin responder quedaron registradas.', 'warning');
         }
       }
     }, 1000);
@@ -478,6 +480,19 @@ const ExamEngine = {
 
     // Grade and calculate scores
     const results = this.grade();
+
+    // Práctica Express: conserva las 10 preguntas y usa un resultado independiente
+    // para no confundir el drill con un puntaje de simulacro completo.
+    if (this.mode === 'quick') {
+      const historyKey = 'icfes_quick_history_v1';
+      const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+      history.unshift(results);
+      localStorage.setItem(historyKey, JSON.stringify(history.slice(0, 30)));
+      AnalyticsModule.showResults(results);
+      switchView('analytics');
+      return;
+    }
+
     AppState.examHistory.unshift(results);
     saveHistoryData();
 
@@ -505,11 +520,16 @@ const ExamEngine = {
     };
 
     let totalCorrect = 0;
+    let answeredCount = 0;
+    let unansweredCount = 0;
     const questionReview = [];
 
     this.questions.forEach((q, idx) => {
       const userKey = this.userAnswers[q.id];
-      const isCorrect = userKey === q.correct;
+      const answered = !!userKey;
+      const isCorrect = answered && userKey === q.correct;
+      if (answered) answeredCount++;
+      else unansweredCount++;
       if (isCorrect) totalCorrect++;
 
       if (subjectStats[q.subject]) {
@@ -521,7 +541,9 @@ const ExamEngine = {
         index: idx + 1,
         question: q,
         userAnswer: userKey || 'Sin responder',
-        isCorrect: isCorrect
+        isCorrect: isCorrect,
+        answered: answered,
+        unansweredByTime: !answered && this.timedOut
       });
     });
 
@@ -550,23 +572,33 @@ const ExamEngine = {
         const id = kind + ':' + value;
         if (!diagnostic[id]) diagnostic[id] = { kind, label: value, correct: 0, total: 0 };
         diagnostic[id].total++;
+        if (userKey) diagnostic[id].answered++;
+        else diagnostic[id].unanswered++;
         if (isCorrect) diagnostic[id].correct++;
       });
     });
     Object.values(diagnostic).forEach(item => {
-      item.accuracyPct = Math.round((item.correct / item.total) * 100);
+      item.accuracyPct = item.answered > 0 ? Math.round((item.correct / item.answered) * 100) : 0;
+      item.coveragePct = item.total > 0 ? Math.round((item.answered / item.total) * 100) : 0;
     });
 
-    const globalScore = Math.round((totalCorrect / this.questions.length) * 500);
+    const accuracyPct = Math.round((totalCorrect / this.questions.length) * 100);
+    const globalScore = this.mode === 'quick'
+      ? accuracyPct
+      : Math.round((totalCorrect / this.questions.length) * 500);
 
     return {
-      id: 'sim-' + Date.now(),
+      id: (this.mode === 'quick' ? 'quick-' : 'sim-') + Date.now(),
       date: new Date().toISOString(),
       mode: this.mode,
       subject: this.subject,
       totalQuestions: this.questions.length,
+      answeredCount,
+      unansweredCount,
+      incorrectCount: answeredCount - totalCorrect,
+      timedOut: !!this.timedOut,
       correctCount: totalCorrect,
-      accuracyPct: Math.round((totalCorrect / this.questions.length) * 100),
+      accuracyPct,
       globalScore: globalScore,
       componentScores: componentScores,
       performanceLevels: performanceLevels,

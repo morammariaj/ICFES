@@ -108,7 +108,7 @@
             <i class="bi bi-phone-fill fs-4"></i>
           </div>
           <div>
-            <h5 class="fw-bold mb-1">¡Instala la App en tu Celular o PC!</h5>
+            <h5 class="fw-bold mb-1">Instala la app si te resulta útil</h5>
             <p class="mb-0 small opacity-90">Úsala sin conexión a internet y como una app nativa con acceso directo en tu pantalla de inicio.</p>
           </div>
         </div>
@@ -126,7 +126,7 @@
             <p class="text-secondary mb-3">Tu objetivo es maximizar tu desempeño en <b>Validación 2027</b> y también entrenar el perfil Saber 11 para <span id="userCareerBadge" class="badge bg-secondary-subtle text-secondary">Pregrado</span>. Entrena con preguntas reales, temporizador exacto y explicaciones paso a paso.</p>
             <div class="d-flex flex-wrap gap-2">
               <button class="btn btn-m3-primary" data-start-exam="full">
-                <i class="bi bi-play-circle-fill fs-5"></i> Iniciar Examen Real
+                <i class="bi bi-play-circle-fill fs-5"></i> Iniciar Simulacro Completo
               </button>
               <button class="btn btn-m3-tonal" data-start-exam="graficos">
                 <i class="bi bi-graph-up-arrow me-1"></i> Taller de Gráficos ICFES
@@ -174,11 +174,11 @@
         <div class="col-md-6">
           <div class="card border-0 m3-card m3-card-interactive p-4 h-100" data-start-exam="full">
             <div class="d-flex align-items-center justify-content-between mb-3">
-              <span class="badge bg-danger rounded-pill">Oficial ICFES</span>
+              <span class="badge bg-primary-subtle text-primary rounded-pill">Simulacro de entrenamiento</span>
               <span class="text-muted small"><i class="bi bi-clock me-1"></i>4h 30m</span>
             </div>
-            <h5 class="fw-bold mb-2">Simulacro Completo Oficial</h5>
-            <p class="text-secondary small mb-3">Todas las áreas del examen Saber 11 organizadas por sesiones, con temporizador regresivo oficial, hoja de respuestas y estimación interna de desempeño; el puntaje oficial lo determina el ICFES.</p>
+            <h5 class="fw-bold mb-2">Simulacro Completo</h5>
+            <p class="text-secondary small mb-3">Todas las áreas del examen Saber 11 organizadas por sesiones, con temporizador regresivo, hoja de respuestas y estimación interna de desempeño; el puntaje oficial lo determina el ICFES.</p>
             <div class="d-flex align-items-center text-primary fw-bold small mt-auto">
               Comenzar prueba completa <i class="bi bi-arrow-right ms-2"></i>
             </div>
@@ -372,7 +372,7 @@
             </div>
             <div class="col-md-5 text-center">
               <div class="p-3 bg-white rounded-4 shadow-sm border d-inline-block w-100" style="max-width: 320px;">
-                <h6 class="fw-bold text-muted small mb-3">Comparativo vs Promedio Nacional</h6>
+                <h6 class="fw-bold text-muted small mb-3">Comparativo interno del entrenamiento</h6>
                 <div style="height: 180px;">
                   <canvas id="analyticsBarChart"></canvas>
                 </div>
@@ -417,7 +417,7 @@
         <!-- Detailed Review of Questions -->
         <div class="card border-0 m3-card p-4 mb-4">
           <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-            <h5 class="fw-bold mb-0"><i class="bi bi-journal-check text-primary me-2"></i>Revisión de Preguntas con Solución Oficial</h5>
+            <h5 class="fw-bold mb-0"><i class="bi bi-journal-check text-primary me-2"></i>Revisión de Preguntas y Soluciones</h5>
             <div class="btn-group btn-group-sm" role="group">
               <button class="btn btn-outline-secondary active" data-review-filter="all">Todas</button>
               <button class="btn btn-outline-success" data-review-filter="correct">Solo Correctas</button>
@@ -615,6 +615,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <!-- App Data and Logic -->
+  <script src="./assets/data/additional_questions.js"></script>
   <script src="./assets/data/questions.js"></script>
   <script src="./assets/data/study_guides.js"></script>
   <script src="./assets/js/analytics.js"></script>

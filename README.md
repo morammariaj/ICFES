@@ -32,7 +32,7 @@ Una Progressive Web Application (PWA) de alto rendimiento, moderna, fluida y res
    * No se califican y se almacenan localmente como cuestionarios auxiliares.
 
 6. **Banco amplio de entrenamiento**:
-   * 290 registros cargados en total, incluyendo 286 preguntas académicas de las cinco pruebas y 4 ejercicios de gráficos.
+   * 300 registros cargados en total, incluyendo 296 preguntas académicas de las cinco pruebas y 4 ejercicios de gráficos. De estos, 10 son preguntas históricas seleccionadas de cuadernillos proporcionados para uso académico y con atribución de fuente.
    * El banco ampliado es material original de entrenamiento; no se presenta como material oficial ni como reproducción de cuadernillos.
 
 7. **100% Instalable y Offline First**:
@@ -60,9 +60,11 @@ Esta aplicación fue creada con arquitectura estática pura, perfecta para publi
 6. Abre ese enlace desde Google Chrome en tu celular Android o Safari en tu iPhone y selecciona **"Agregar a la pantalla principal"** para tenerla instalada como una app nativa.
 
 
-## 🧭 Ruta 2027\nLa app ahora incluye modalidad **Validación del Bachillerato** (principal) y **Saber 11°**, un mapa seleccionable de temas para las cinco pruebas y un bloque de técnicas de resolución tipo selección múltiple. La ruta está diseñada para enseñar temas completos, no solo definiciones, y relacionarlos con práctica, descarte, velocidad y revisión de errores.
+## 🧭 Ruta 2027
+La app ahora incluye modalidad **Validación del Bachillerato** (principal) y **Saber 11°**, un mapa seleccionable de temas para las cinco pruebas y un bloque de técnicas de resolución tipo selección múltiple. La ruta está diseñada para enseñar temas completos, no solo definiciones, y relacionarlos con práctica, descarte, velocidad y revisión de errores.
 
-Los cuadernillos entregados por el usuario sirven como material de entrenamiento histórico. La estructura oficial vigente debe contrastarse con la guía ICFES de la convocatoria correspondiente.\n
+Los cuadernillos entregados por el usuario sirven como material de entrenamiento histórico. La estructura oficial vigente debe contrastarse con la guía ICFES de la convocatoria correspondiente.
+
 
 ## Estado del banco y estructura
 
